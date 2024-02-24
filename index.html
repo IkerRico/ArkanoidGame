@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Arkanoid Game</title>
+    <style>
+      body {
+        background-color: #222;
+        display: grid;
+        place-content: center;
+      }
+
+      canvas {
+        border: 4px solid #fff;
+        background-color: black;
+        border-bottom: transparent;
+        margin: 0 auto;
+        display: block;
+        box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.4);
+      }
+    </style>
+  </head>
+  <body>
+    <canvas></canvas>
+  </body>
+</html>
+<script>
+  const canvas = document.querySelector("canvas");
+  const ctx = canvas.getContext("2d");
+
+  // Establecemos medidas para el canva
+  canvas.width = 800;
+  canvas.height = 800;
+
+  // Variables de la pelota
+  const ballRadius = 7;
+  let x = canvas.width / 2;
+  let y = canvas.height - 30;
+
+  const BALL_SPEED = 5;
+
+  // Velocidad de la pelota
+  let dx = BALL_SPEED;
+  let dy = -BALL_SPEED; // Es menos porque tiene que ir hacia arriba
+
+  function drawBall() {
+    ctx.beginPath();
+    ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
+    ctx.fillStyle = "#fff";
+    ctx.fill();
+    ctx.closePath();
+  }
+
+  function drawPaddle() {}
+  function drawBricks() {}
+
+  function ballMovement() {
+    // Si la pelota rebota en los laterales
+    if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
+      dx = -dx;
+    }
+    if (y + dy < ballRadius) {
+      dy = -dy;
+    }
+
+    if (y + dy > canvas.height - ballRadius) {
+      document.location.reload();
+    }
+
+    x += dx;
+    y += dy;
+  }
+
+  function ballColision() {}
+  function paddleMovement() {}
+
+  function cleanCanvas() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
+  function draw() {
+    cleanCanvas();
+    drawBall();
+    drawPaddle();
+    drawBricks();
+    ballMovement();
+    ballColision();
+    paddleMovement();
+
+    window.requestAnimationFrame(draw);
+  }
+
+  draw();
+</script>
